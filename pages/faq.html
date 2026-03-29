@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ | Burner Pieces</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  <div class="announcement-bar"><p>FREE SHIPPING ON ORDERS ABOVE ₹999</p></div>
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="logo"><span class="logo-text">BURNER</span><span class="logo-sub">PIECES</span></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="mens-collection.html">Men's Collection</a></li>
+        <li><a href="womens-collection.html">Women's Collection</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="nav-more"><a href="#" class="dropdown-toggle">More <i class="fas fa-chevron-down"></i></a>
+          <ul class="dropdown-menu"><li><a href="faq.html">FAQ</a></li><li><a href="shipping-returns.html">Shipping & Returns</a></li><li><a href="store-policy.html">Store Policy</a></li></ul>
+        </li>
+      </ul>
+      <div class="nav-actions">
+        <button class="nav-icon" id="searchToggle"><i class="fas fa-search"></i></button>
+        <button class="nav-icon cart-icon" id="cartToggle"><i class="fas fa-shopping-bag"></i><span class="cart-count" id="cartCount">0</span></button>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="content-page">
+    <div class="container">
+      <h1>Frequently Asked Questions</h1>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question">How long does delivery take? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer"><p>Standard delivery takes 5-7 business days within India. Metro cities typically receive orders within 3-5 business days. Express shipping is available at checkout for 2-3 day delivery.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">What is your return policy? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer"><p>We offer a 7-day return policy from the date of delivery. Items must be unworn, unwashed, and in their original packaging with tags attached. Initiate a return through our contact page or email support@burnerpieces.com.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">How do I track my order? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer"><p>Once your order is shipped, you'll receive a tracking link via email and SMS from Shiprocket. You can also track your order on the Shiprocket tracking page using your AWB number.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">What payment methods do you accept? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer"><p>We accept all major credit/debit cards (Visa, Mastercard, Rupay), UPI (GPay, PhonePe, Paytm), net banking, and wallets through our secure Razorpay payment gateway.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Do you ship internationally? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer"><p>Currently, we ship only within India. International shipping will be available soon. Sign up for our newsletter to stay updated!</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">How do I find my size? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer"><p>Each product page includes a detailed size chart. If you're between sizes, we recommend going with the larger size for a comfortable fit. Contact us for personalized sizing advice.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Can I exchange an item for a different size? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer"><p>Yes! Size exchanges are free within 7 days of delivery. Simply contact us with your order number and the size you need, and we'll arrange the exchange.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Are your products sustainable? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer"><p>We are committed to sustainability. We use organic cotton, recycled materials, and ethical manufacturing practices. Our packaging is 100% recyclable and we're working towards carbon-neutral shipping.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header"><h3>Your Cart</h3><button id="cartClose"><i class="fas fa-times"></i></button></div>
+    <div class="cart-items" id="cartItems"><div class="cart-empty"><i class="fas fa-shopping-bag"></i><p>Your cart is empty</p></div></div>
+    <div class="cart-footer" id="cartFooter" style="display:none;"><div class="cart-total"><span>Subtotal</span><span id="cartTotal">₹0</span></div><a href="checkout.html" class="btn-primary btn-checkout">Proceed to Checkout</a></div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom"><p>Burner Pieces &copy; 2025 by Ouro Studio Private Limited. All Rights Reserved.</p></div>
+    </div>
+  </footer>
+
+  <script src="../js/products.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/app.js"></script>
+</body>
+</html>

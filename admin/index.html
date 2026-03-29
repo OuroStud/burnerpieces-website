@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Burner Pieces</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body style="background:#f0ede8;">
+  <div class="admin-layout">
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <h3><i class="fas fa-fire"></i> Burner Admin</h3>
+      <ul class="admin-nav">
+        <li><a href="#" class="active" onclick="showTab('dashboard')"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="#" onclick="showTab('products')"><i class="fas fa-box"></i> Products</a></li>
+        <li><a href="#" onclick="showTab('orders')"><i class="fas fa-shopping-cart"></i> Orders</a></li>
+        <li><a href="#" onclick="showTab('customers')"><i class="fas fa-users"></i> Customers</a></li>
+        <li><a href="#" onclick="showTab('subscribers')"><i class="fas fa-envelope"></i> Subscribers</a></li>
+        <li><a href="#" onclick="showTab('contacts')"><i class="fas fa-headset"></i> Contact Messages</a></li>
+        <li><a href="#" onclick="showTab('shipments')"><i class="fas fa-truck"></i> Shipments</a></li>
+        <li style="margin-top:auto;padding-top:24px;border-top:1px solid rgba(255,255,255,0.1);">
+          <a href="../index.html"><i class="fas fa-external-link-alt"></i> View Store</a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+      <!-- DASHBOARD TAB -->
+      <div id="tab-dashboard" class="admin-tab">
+        <div class="admin-header">
+          <h1>Dashboard</h1>
+          <span style="color:var(--color-text-muted);font-size:0.88rem;" id="dateDisplay"></span>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value" id="statProducts">10</div>
+            <div class="stat-label">Total Products</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="statOrders">0</div>
+            <div class="stat-label">Orders</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="statRevenue">₹0</div>
+            <div class="stat-label">Revenue</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="statSubscribers">0</div>
+            <div class="stat-label">Subscribers</div>
+          </div>
+        </div>
+        <h2 style="font-family:var(--font-display);font-size:1.3rem;margin-bottom:16px;">Quick Actions</h2>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:32px;">
+          <button class="btn-primary" onclick="showTab('products')" style="font-size:0.8rem;padding:10px 20px;"><i class="fas fa-plus"></i> Add Product</button>
+          <button class="btn-secondary" onclick="exportDataAsCSV('orders')" style="font-size:0.8rem;padding:10px 20px;"><i class="fas fa-download"></i> Export Orders</button>
+          <button class="btn-secondary" onclick="exportDataAsCSV('subscribers')" style="font-size:0.8rem;padding:10px 20px;"><i class="fas fa-download"></i> Export Subscribers</button>
+          <button class="btn-secondary" onclick="exportDataAsCSV('contacts')" style="font-size:0.8rem;padding:10px 20px;"><i class="fas fa-download"></i> Export Contacts</button>
+          <button class="btn-secondary" onclick="exportDataAsCSV('users')" style="font-size:0.8rem;padding:10px 20px;"><i class="fas fa-download"></i> Export Users</button>
+        </div>
+        <h2 style="font-family:var(--font-display);font-size:1.3rem;margin-bottom:16px;">Recent Orders</h2>
+        <div id="recentOrdersTable"></div>
+      </div>
+
+      <!-- PRODUCTS TAB -->
+      <div id="tab-products" class="admin-tab" style="display:none;">
+        <div class="admin-header">
+          <h1>Products</h1>
+          <button class="btn-primary" onclick="toggleAddProduct()" style="font-size:0.8rem;padding:10px 20px;"><i class="fas fa-plus"></i> Add Product</button>
+        </div>
+        <!-- Add Product Form -->
+        <div id="addProductForm" style="display:none;background:var(--color-surface);padding:24px;border-radius:var(--radius-md);margin-bottom:24px;box-shadow:var(--shadow-sm);">
+          <h3 style="font-family:var(--font-display);margin-bottom:16px;">Add New Product</h3>
+          <form id="productForm" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div class="form-group"><label>Product Name *</label><input type="text" name="name" required></div>
+            <div class="form-group"><label>Product ID (SKU) *</label><input type="text" name="id" required placeholder="bp-m-006"></div>
+            <div class="form-group"><label>Category *</label>
+              <select name="category" required><option value="men">Men</option><option value="women">Women</option></select>
+            </div>
+            <div class="form-group"><label>Price (₹) *</label><input type="number" name="price" required></div>
+            <div class="form-group"><label>Original Price (₹)</label><input type="number" name="originalPrice" placeholder="Leave empty if no discount"></div>
+            <div class="form-group"><label>Badge</label>
+              <select name="badge"><option value="">None</option><option value="new">New</option><option value="sale">Sale</option><option value="bestseller">Best Seller</option></select>
+            </div>
+            <div class="form-group" style="grid-column:1/-1;"><label>Image URL 1 *</label><input type="url" name="image1" required placeholder="https://..."></div>
+            <div class="form-group" style="grid-column:1/-1;"><label>Image URL 2</label><input type="url" name="image2" placeholder="https://..."></div>
+            <div class="form-group"><label>Sizes (comma-separated)</label><input type="text" name="sizes" placeholder="S, M, L, XL"></div>
+            <div class="form-group"><label>Colors (hex, comma-separated)</label><input type="text" name="colors" placeholder="#1a1a1a, #ffffff"></div>
+            <div class="form-group" style="grid-column:1/-1;"><label>Description *</label><textarea name="description" rows="3" required></textarea></div>
+            <div style="grid-column:1/-1;display:flex;gap:12px;">
+              <button type="submit" class="btn-primary" style="font-size:0.8rem;padding:10px 20px;">Save Product</button>
+              <button type="button" class="btn-secondary" onclick="toggleAddProduct()" style="font-size:0.8rem;padding:10px 20px;">Cancel</button>
+            </div>
+          </form>
+        </div>
+        <div id="productsTable"></div>
+      </div>
+
+      <!-- ORDERS TAB -->
+      <div id="tab-orders" class="admin-tab" style="display:none;">
+        <div class="admin-header">
+          <h1>Orders</h1>
+          <button class="btn-secondary" onclick="exportDataAsCSV('orders')" style="font-size:0.8rem;padding:10px 20px;"><i class="fas fa-download"></i> Export CSV</button>
+        </div>
+        <div id="ordersTable"></div>
+      </div>
+
+      <!-- CUSTOMERS TAB -->
+      <div id="tab-customers" class="admin-tab" style="display:none;">
+        <div class="admin-header">
+          <h1>Registered Customers</h1>
+          <button class="btn-secondary" onclick="exportDataAsCSV('users')" style="font-size:0.8rem;padding:10px 20px;"><i class="fas fa-download"></i> Export CSV</button>
+        </div>
+        <div id="customersTable"></div>
+      </div>
+
+      <!-- SUBSCRIBERS TAB -->
+      <div id="tab-subscribers" class="admin-tab" style="display:none;">
+        <div class="admin-header">
+          <h1>Newsletter Subscribers</h1>
+          <button class="btn-secondary" onclick="exportDataAsCSV('subscribers')" style="font-size:0.8rem;padding:10px 20px;"><i class="fas fa-download"></i> Export CSV</button>
+        </div>
+        <div id="subscribersTable"></div>
+      </div>
+
+      <!-- CONTACTS TAB -->
+      <div id="tab-contacts" class="admin-tab" style="display:none;">
+        <div class="admin-header">
+          <h1>Contact Messages</h1>
+          <button class="btn-secondary" onclick="exportDataAsCSV('contacts')" style="font-size:0.8rem;padding:10px 20px;"><i class="fas fa-download"></i> Export CSV</button>
+        </div>
+        <div id="contactsTable"></div>
+      </div>
+
+      <!-- SHIPMENTS TAB -->
+      <div id="tab-shipments" class="admin-tab" style="display:none;">
+        <div class="admin-header">
+          <h1>Shiprocket Shipments</h1>
+          <button class="btn-secondary" onclick="exportDataAsCSV('shipments')" style="font-size:0.8rem;padding:10px 20px;"><i class="fas fa-download"></i> Export CSV</button>
+        </div>
+        <div id="shipmentsTable"></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/products.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    /* TAB NAVIGATION */
+    function showTab(name) {
+      document.querySelectorAll('.admin-tab').forEach(t => t.style.display = 'none');
+      document.querySelectorAll('.admin-nav a').forEach(a => a.classList.remove('active'));
+      document.getElementById('tab-' + name).style.display = 'block';
+      event.target.closest('a')?.classList.add('active');
+      loadTabData(name);
+    }
+
+    function loadTabData(tab) {
+      switch(tab) {
+        case 'dashboard': loadDashboard(); break;
+        case 'products': loadProductsTable(); break;
+        case 'orders': loadDataTable('orders', 'ordersTable'); break;
+        case 'customers': loadDataTable('users', 'customersTable'); break;
+        case 'subscribers': loadDataTable('subscribers', 'subscribersTable'); break;
+        case 'contacts': loadDataTable('contacts', 'contactsTable'); break;
+        case 'shipments': loadDataTable('shipments', 'shipmentsTable'); break;
+      }
+    }
+
+    /* DASHBOARD */
+    function loadDashboard() {
+      document.getElementById('dateDisplay').textContent = new Date().toLocaleDateString('en-IN', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+      document.getElementById('statProducts').textContent = PRODUCTS.length;
+      const orders = getFormData('orders');
+      document.getElementById('statOrders').textContent = orders.length;
+      const revenue = orders.reduce((sum, o) => sum + (o.order?.amount || 0), 0);
+      document.getElementById('statRevenue').textContent = '₹' + revenue.toLocaleString('en-IN');
+      document.getElementById('statSubscribers').textContent = getFormData('subscribers').length;
+
+      if (orders.length > 0) {
+        const recent = orders.slice(-5).reverse();
+        let html = '<table class="data-table"><thead><tr><th>Order ID</th><th>Customer</th><th>Amount</th><th>Date</th><th>Status</th></tr></thead><tbody>';
+        recent.forEach(o => {
+          html += `<tr>
+            <td>BP-${o.id || '...'}</td>
+            <td>${o.order?.customerName || 'N/A'}</td>
+            <td>₹${(o.order?.amount || 0).toLocaleString('en-IN')}</td>
+            <td>${new Date(o.timestamp).toLocaleDateString('en-IN')}</td>
+            <td><span class="status-badge status-active">Paid</span></td>
+          </tr>`;
+        });
+        html += '</tbody></table>';
+        document.getElementById('recentOrdersTable').innerHTML = html;
+      } else {
+        document.getElementById('recentOrdersTable').innerHTML = '<p style="color:var(--color-text-muted);">No orders yet.</p>';
+      }
+    }
+
+    /* PRODUCTS TABLE */
+    function loadProductsTable() {
+      let html = '<table class="data-table"><thead><tr><th>Image</th><th>Name</th><th>SKU</th><th>Category</th><th>Price</th><th>Sizes</th><th>Stock</th></tr></thead><tbody>';
+      PRODUCTS.forEach(p => {
+        html += `<tr>
+          <td><img src="${p.images[0]}" style="width:50px;height:50px;object-fit:cover;border-radius:4px;"></td>
+          <td><strong>${p.name}</strong></td>
+          <td style="font-size:0.8rem;color:var(--color-text-muted);">${p.id}</td>
+          <td>${p.category}</td>
+          <td>₹${p.price.toLocaleString('en-IN')}${p.originalPrice ? ` <span style="text-decoration:line-through;color:#999;">₹${p.originalPrice.toLocaleString('en-IN')}</span>` : ''}</td>
+          <td>${p.sizes.join(', ')}</td>
+          <td><span class="status-badge status-active">In Stock</span></td>
+        </tr>`;
+      });
+      html += '</tbody></table>';
+      document.getElementById('productsTable').innerHTML = html;
+    }
+
+    /* GENERIC DATA TABLE */
+    function loadDataTable(type, containerId) {
+      const data = getFormData(type);
+      const container = document.getElementById(containerId);
+      if (data.length === 0) {
+        container.innerHTML = `<p style="color:var(--color-text-muted);">No ${type} data yet.</p>`;
+        return;
+      }
+      const keys = Object.keys(data[0]).filter(k => !['id'].includes(k)).slice(0, 8);
+      let html = '<table class="data-table"><thead><tr>';
+      keys.forEach(k => html += `<th>${k.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())}</th>`);
+      html += '</tr></thead><tbody>';
+      data.reverse().forEach(row => {
+        html += '<tr>';
+        keys.forEach(k => {
+          let val = row[k];
+          if (typeof val === 'object') val = JSON.stringify(val).substring(0, 50) + '...';
+          if (typeof val === 'string' && val.length > 60) val = val.substring(0, 60) + '...';
+          html += `<td style="font-size:0.82rem;">${val || '-'}</td>`;
+        });
+        html += '</tr>';
+      });
+      html += '</tbody></table>';
+      container.innerHTML = html;
+    }
+
+    /* ADD PRODUCT */
+    function toggleAddProduct() {
+      const form = document.getElementById('addProductForm');
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+
+    document.getElementById('productForm')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const d = Object.fromEntries(fd.entries());
+      const product = {
+        id: d.id,
+        name: d.name,
+        category: d.category,
+        price: parseInt(d.price),
+        originalPrice: d.originalPrice ? parseInt(d.originalPrice) : null,
+        images: [d.image1, d.image2].filter(Boolean),
+        sizes: d.sizes ? d.sizes.split(',').map(s => s.trim()) : ['M', 'L'],
+        colors: d.colors ? d.colors.split(',').map(s => s.trim()) : ['#1a1a1a'],
+        badge: d.badge || null,
+        description: d.description,
+        inStock: true
+      };
+      PRODUCTS.push(product);
+      saveFormData('custom_products', product);
+      showToast('Product added successfully!');
+      toggleAddProduct();
+      loadProductsTable();
+      e.target.reset();
+    });
+
+    /* INIT */
+    document.addEventListener('DOMContentLoaded', () => {
+      // Load custom products from storage
+      const custom = getFormData('custom_products');
+      custom.forEach(p => {
+        if (!PRODUCTS.find(x => x.id === p.id)) PRODUCTS.push(p);
+      });
+      loadDashboard();
+    });
+  </script>
+</body>
+</html>
