@@ -181,7 +181,15 @@ function renderProductCard(product, basePath = '') {
        <span class="original">₹${product.originalPrice.toLocaleString('en-IN')}</span>`
     : `<span class="current">₹${product.price.toLocaleString('en-IN')}</span>`;
 
-  const sizesHTML = product.sizes.map(s => `<span class="size-dot">${s}</span>`).join('');
+  const sizesHTML = product.sizes.map(s =>
+    `<span class="size-dot size-selectable" onclick="selectSize(this, '${product.id}')" data-size="${s}">${s}</span>`
+  ).join('');
+
+  const colorsHTML = product.colors && product.colors.length > 0
+    ? `<div class="product-colors">${product.colors.map(c =>
+        `<span class="color-dot" style="background:${c};${c === '#ffffff' || c === '#f5f5dc' ? 'border:1px solid #ccc;' : ''}" title="${c}"></span>`
+      ).join('')}</div>`
+    : '';
 
   return `
     <div class="product-card" data-id="${product.id}" data-category="${product.category}">
@@ -189,13 +197,14 @@ function renderProductCard(product, basePath = '') {
       <div class="product-image">
         <img src="${product.images[0]}" alt="${product.name}" loading="lazy">
         <div class="product-actions">
-          <button class="btn-add-cart" onclick="addToCart('${product.id}')">Add to Cart</button>
+          <button class="btn-add-cart" onclick="addToCartWithSize('${product.id}')">Add to Cart</button>
           <button class="btn-quick-view" onclick="quickView('${product.id}')">Quick View</button>
         </div>
       </div>
       <div class="product-details">
         <h3>${product.name}</h3>
         <div class="product-price">${priceHTML}</div>
+        ${colorsHTML}
         <div class="product-sizes">${sizesHTML}</div>
       </div>
     </div>
@@ -274,4 +283,27 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('featuredProducts')) {
     renderProducts('featuredProducts', 'all', 4);
   }
+  if (document.getElementById('accessoriesProducts')) {
+    renderProducts('accessoriesProducts', 'accessories');
+  }
 });
+
+/* Select size on product card */
+function selectSize(el, productId) {
+  const card = el.closest('.product-card') || el.closest('.product-info');
+  if (card) {
+    card.querySelectorAll('.size-selectable').forEach(s => s.classList.remove('selected'));
+  }
+  el.classList.add('selected');
+}
+
+/* Add to cart with selected size */
+function addToCartWithSize(productId) {
+  const card = document.querySelector(`.product-card[data-id="${productId}"]`);
+  let size = null;
+  if (card) {
+    const selected = card.querySelector('.size-selectable.selected');
+    size = selected ? selected.dataset.size : null;
+  }
+  addToCart(productId, size);
+}

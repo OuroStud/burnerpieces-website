@@ -509,6 +509,34 @@ input:focus, select:focus, textarea:focus {
   padding: 2px 8px;
   border-radius: 2px;
 }
+.size-dot.size-selectable {
+  cursor: pointer;
+  transition: all var(--transition);
+  user-select: none;
+}
+.size-dot.size-selectable:hover {
+  border-color: var(--color-dark);
+  color: var(--color-dark);
+}
+.size-dot.size-selectable.selected {
+  background: var(--color-dark);
+  color: #fff;
+  border-color: var(--color-dark);
+}
+.product-colors {
+  display: flex;
+  gap: 5px;
+  margin-top: 8px;
+}
+.color-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  transition: transform var(--transition);
+}
+.color-dot:hover { transform: scale(1.2); }
 
 /* BRAND BANNER */
 .brand-banner {
