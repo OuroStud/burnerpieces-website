@@ -14,12 +14,12 @@ class Cart {
     this.updateUI();
   }
 
-  addItem(productId, size = null, qty = 1) {
+  addItem(productId, size = null, qty = 1, color = null) {
     const product = getProductById(productId);
     if (!product) return;
 
     const existingIndex = this.items.findIndex(
-      item => item.id === productId && item.size === size
+      item => item.id === productId && item.size === size && item.color === color
     );
 
     if (existingIndex > -1) {
@@ -31,6 +31,7 @@ class Cart {
         price: product.price,
         image: product.images[0],
         size: size || product.sizes[0],
+        color: color || (product.colors && product.colors[0]) || null,
         qty: qty
       });
     }
@@ -93,7 +94,7 @@ class Cart {
           <div class="cart-item-img"><img src="${item.image}" alt="${item.name}"></div>
           <div class="cart-item-info">
             <h4>${item.name}</h4>
-            <p class="cart-item-price">₹${item.price.toLocaleString('en-IN')} · Size: ${item.size}</p>
+            <p class="cart-item-price">₹${item.price.toLocaleString('en-IN')} · Size: ${item.size}${item.color ? ` · <span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${item.color};border:1px solid rgba(0,0,0,0.15);vertical-align:middle;"></span>` : ''}</p>
             <div class="cart-item-qty">
               <button class="qty-btn" onclick="cart.updateQty(${i}, -1)">−</button>
               <span>${item.qty}</span>
@@ -129,8 +130,8 @@ class Cart {
 const cart = new Cart();
 
 // Global helper
-function addToCart(productId, size, qty) {
-  cart.addItem(productId, size, qty);
+function addToCart(productId, size, qty, color) {
+  cart.addItem(productId, size, qty, color);
 }
 
 // Toast notification

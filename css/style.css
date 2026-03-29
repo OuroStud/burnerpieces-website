@@ -529,14 +529,23 @@ input:focus, select:focus, textarea:focus {
   margin-top: 8px;
 }
 .color-dot {
-  width: 16px;
-  height: 16px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   display: inline-block;
   cursor: pointer;
-  transition: transform var(--transition);
+  transition: transform var(--transition), box-shadow var(--transition);
+  outline: 2.5px solid transparent;
+  outline-offset: 3px;
+  border: 1px solid rgba(0,0,0,0.1);
 }
-.color-dot:hover { transform: scale(1.2); }
+.color-dot:hover { transform: scale(1.15); outline-color: var(--color-accent); }
+.color-dot.color-selectable.selected {
+  outline-color: var(--color-dark);
+  transform: scale(1.1);
+}
+.color-dot:not(.selected) { opacity: 0.65; }
+.color-dot.selected { opacity: 1; }
 
 /* BRAND BANNER */
 .brand-banner {

@@ -185,9 +185,20 @@ function renderProductCard(product, basePath = '') {
     `<span class="size-dot size-selectable" onclick="selectSize(this, '${product.id}')" data-size="${s}">${s}</span>`
   ).join('');
 
+  const colorNames = {
+    '#1a1a1a': 'Black', '#000000': 'Black', '#ffffff': 'White', '#f5f5dc': 'Beige',
+    '#4a6741': 'Olive', '#5c5c3d': 'Army Green', '#8b7355': 'Tan', '#87ceeb': 'Sky Blue',
+    '#c88ea7': 'Rose', '#2f4f4f': 'Dark Teal', '#4169e1': 'Royal Blue', '#c3b091': 'Khaki',
+    '#1a3a5c': 'Indigo', '#f5f5f5': 'Off White'
+  };
+
   const colorsHTML = product.colors && product.colors.length > 0
-    ? `<div class="product-colors">${product.colors.map(c =>
-        `<span class="color-dot" style="background:${c};${c === '#ffffff' || c === '#f5f5dc' ? 'border:1px solid #ccc;' : ''}" title="${c}"></span>`
+    ? `<div class="product-colors">${product.colors.map((c, i) =>
+        `<span class="color-dot color-selectable${i === 0 ? ' selected' : ''}" 
+          style="background:${c};${c === '#ffffff' || c === '#f5f5dc' || c === '#f5f5f5' ? 'border:1.5px solid #ccc;' : ''}" 
+          title="${colorNames[c.toLowerCase()] || c}" 
+          data-color="${c}"
+          onclick="selectColor(this, '${product.id}')"></span>`
       ).join('')}</div>`
     : '';
 
@@ -297,13 +308,25 @@ function selectSize(el, productId) {
   el.classList.add('selected');
 }
 
-/* Add to cart with selected size */
+/* Select color on product card */
+function selectColor(el, productId) {
+  const card = el.closest('.product-card') || el.closest('.product-info');
+  if (card) {
+    card.querySelectorAll('.color-selectable').forEach(c => c.classList.remove('selected'));
+  }
+  el.classList.add('selected');
+}
+
+/* Add to cart with selected size and color */
 function addToCartWithSize(productId) {
   const card = document.querySelector(`.product-card[data-id="${productId}"]`);
   let size = null;
+  let color = null;
   if (card) {
-    const selected = card.querySelector('.size-selectable.selected');
-    size = selected ? selected.dataset.size : null;
+    const selectedSize = card.querySelector('.size-selectable.selected');
+    size = selectedSize ? selectedSize.dataset.size : null;
+    const selectedColor = card.querySelector('.color-selectable.selected');
+    color = selectedColor ? selectedColor.dataset.color : null;
   }
-  addToCart(productId, size);
+  addToCart(productId, size, 1, color);
 }
