@@ -179,7 +179,7 @@ function exportDataAsCSV(type) {
 
 function initiateRazorpayPayment(orderDetails) {
   const options = {
-    key: 'rzp_test_YOUR_KEY_HERE', // ← Replace with your Razorpay Key ID
+    key: rzp_live_SX3Gw1GrP0jJIy, // ← Replace with your Razorpay Key ID
     amount: orderDetails.amount * 100, // Razorpay expects paise
     currency: 'INR',
     name: 'Burner Pieces',
