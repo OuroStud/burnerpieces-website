@@ -174,13 +174,34 @@ function exportDataAsCSV(type) {
 
 /* ============================
    RAZORPAY INTEGRATION
-   Replace key with your live Razorpay key
+
+   HOW RAZORPAY KEYS WORK:
+   ─────────────────────────
+   There are TWO keys from Razorpay:
+
+   1. KEY ID (rzp_live_xxxx or rzp_test_xxxx)
+      → This goes in the frontend code below (the "key" field)
+      → This is safe to put in frontend code — it only identifies your account
+      → It CANNOT be used to withdraw money or access your dashboard
+
+   2. KEY SECRET (a long alphanumeric string)
+      → This NEVER goes in frontend code
+      → This is used ONLY on your backend server to:
+         a) Create Razorpay orders (POST /v1/orders)
+         b) Verify payment signatures after checkout
+      → If you don't have a backend server yet, Razorpay still works
+         in "checkout-only" mode with just the Key ID below.
+      → When you build a backend, store the Key Secret as an
+         environment variable (never hardcode it)
+
+   FOR TESTING: Use keys starting with rzp_test_
+   FOR LIVE:    Use keys starting with rzp_live_
    ============================ */
 
 function initiateRazorpayPayment(orderDetails) {
   const options = {
-    key: rzp_live_SX3Gw1GrP0jJIy, // ← Replace with your Razorpay Key ID
-    amount: orderDetails.amount * 100, // Razorpay expects paise
+    key: 'rzp_test_YOUR_KEY_HERE', // ← Replace with your Razorpay Key ID
+    amount: orderDetails.totalAmount * 100, // Razorpay expects paise (totalAmount includes GST)
     currency: 'INR',
     name: 'Burner Pieces',
     description: 'Order Payment',
@@ -306,6 +327,21 @@ function processCheckout() {
     return;
   }
 
+  // Calculate GST per item (5% for ≤₹2500, 18% for >₹2500)
+  let totalGst = 0;
+  const itemsWithGst = cart.items.map(item => {
+    const gstRate = item.price <= 2500 ? 0.05 : 0.18;
+    const itemGst = Math.round(item.price * item.qty * gstRate);
+    totalGst += itemGst;
+    return { ...item, gstRate: gstRate * 100, gstAmount: itemGst };
+  });
+
+  const subtotal = cart.getTotal();
+  const shippingCost = subtotal >= 999 ? 0 : 99;
+  const cgst = Math.round(totalGst / 2);
+  const sgst = totalGst - cgst;
+  const totalAmount = subtotal + shippingCost + totalGst;
+
   // Build order details
   const orderDetails = {
     customerName: `${data.firstName} ${data.lastName}`,
@@ -316,10 +352,16 @@ function processCheckout() {
     city: data.city,
     state: data.state,
     pincode: data.pincode,
-    items: cart.items,
-    amount: cart.getTotal(),
-    shippingCost: cart.getTotal() >= 999 ? 0 : 99,
-    totalAmount: cart.getTotal() + (cart.getTotal() >= 999 ? 0 : 99)
+    items: itemsWithGst,
+    amount: subtotal,
+    shippingCost: shippingCost,
+    gst: {
+      cgst: cgst,
+      sgst: sgst,
+      igst: 0, // Set to totalGst for inter-state, sgst to 0
+      totalGst: totalGst
+    },
+    totalAmount: totalAmount
   };
 
   // Initiate payment
