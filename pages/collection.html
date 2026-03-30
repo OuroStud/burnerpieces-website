@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collection | Burner Pieces</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <style>
+    .collection-hero{position:relative;min-height:50vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;margin-bottom:48px}
+    .collection-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+    .collection-hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.4),rgba(0,0,0,0.7));z-index:1}
+    .collection-hero-text{position:relative;z-index:2;color:#fff;max-width:600px;padding:40px 24px}
+    .collection-hero-text h1{font-family:var(--font-display);font-size:2.8rem;font-weight:600;margin-bottom:12px}
+    .collection-hero-text p{font-size:1rem;color:rgba(255,255,255,0.8);line-height:1.7}
+    .collection-tag{display:inline-block;font-size:0.7rem;letter-spacing:3px;text-transform:uppercase;background:var(--color-accent);padding:6px 14px;border-radius:2px;margin-bottom:16px;color:#fff}
+  </style>
+</head>
+<body>
+  <div class="announcement-bar"><p>FREE SHIPPING ON ORDERS ABOVE ₹999 | USE CODE: <strong>BURNER10</strong> FOR 10% OFF</p></div>
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="logo"><span class="logo-text">BURNER</span><span class="logo-sub">PIECES</span></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="mens-collection.html">Men's Collection</a></li>
+        <li><a href="womens-collection.html">Women's Collection</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="nav-more"><a href="#" class="dropdown-toggle">More <i class="fas fa-chevron-down"></i></a>
+          <ul class="dropdown-menu"><li><a href="faq.html">FAQ</a></li><li><a href="shipping-returns.html">Shipping & Returns</a></li><li><a href="store-policy.html">Store Policy</a></li></ul>
+        </li>
+      </ul>
+      <div class="nav-actions">
+        <button class="nav-icon cart-icon" id="cartToggle"><i class="fas fa-shopping-bag"></i><span class="cart-count" id="cartCount">0</span></button>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- COLLECTION HERO — Change image, title, and description for each collection -->
+  <div class="collection-hero">
+    <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=1200&q=80" alt="Collection Banner">
+    <div class="collection-hero-overlay"></div>
+    <div class="collection-hero-text">
+      <span class="collection-tag">Limited Edition</span>
+      <h1 id="collectionTitle">Summer Essentials 2025</h1>
+      <p id="collectionDesc">Our handpicked selection of must-have pieces for the season. Light fabrics, bold colors, and effortless silhouettes designed for the Indian summer.</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="products-grid" id="collectionProducts"></div>
+  </div>
+
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header"><h3>Your Cart</h3><button id="cartClose"><i class="fas fa-times"></i></button></div>
+    <div class="cart-items" id="cartItems"><div class="cart-empty"><i class="fas fa-shopping-bag"></i><p>Your cart is empty</p></div></div>
+    <div class="cart-footer" id="cartFooter" style="display:none;"><div class="cart-total"><span>Subtotal</span><span id="cartTotal">₹0</span></div><a href="checkout.html" class="btn-primary btn-checkout">Proceed to Checkout</a></div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand"><div class="footer-logo"><span class="logo-text">BURNER</span><span class="logo-sub">PIECES</span></div><p>New age fashion by Ouro Studio Private Limited.</p></div>
+        <div class="footer-col"><h4>Shop</h4><ul><li><a href="mens-collection.html">Men</a></li><li><a href="womens-collection.html">Women</a></li></ul></div>
+        <div class="footer-col"><h4>Policies</h4><ul><li><a href="faq.html">FAQ</a></li><li><a href="shipping-returns.html">Shipping</a></li><li><a href="store-policy.html">Store Policy</a></li></ul></div>
+        <div class="footer-col"><h4>Connect</h4><ul><li><a href="contact.html">Contact</a></li></ul></div>
+      </div>
+      <div class="footer-bottom"><p>Burner Pieces &copy; 2025 by Ouro Studio Private Limited. All Rights Reserved.</p></div>
+    </div>
+  </footer>
+
+  <script src="../js/products.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    /* ============================
+       COLLECTION CONFIGURATION
+       
+       HOW TO CREATE A NEW COLLECTION:
+       1. Copy this entire file and rename it (e.g., monsoon-edit.html)
+       2. Change the hero image URL, title, and description above
+       3. Change the COLLECTION_PRODUCT_IDS array below to the product IDs you want
+       4. Upload to GitHub in the pages/ folder
+       5. Link to it from your homepage or nav
+       
+       HOW TO UPDATE THIS COLLECTION:
+       - To change which products appear: edit the COLLECTION_PRODUCT_IDS array below
+       - To change the banner: edit the <img src="..."> and text in the collection-hero section above
+       - Products are shown in the order they appear in the array
+       ============================ */
+
+    const COLLECTION_PRODUCT_IDS = [
+      "bp-m-001",   // Classic Cotton Tee
+      "bp-m-003",   // Linen Summer Shirt
+      "bp-w-001",   // Floral Wrap Dress
+      "bp-w-004",   // Silk Camisole Top
+      // Add more product IDs here. Find IDs in js/products.js
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const container = document.getElementById('collectionProducts');
+      if (!container) return;
+      
+      const collectionProducts = COLLECTION_PRODUCT_IDS
+        .map(id => getProductById(id))
+        .filter(p => p !== undefined);
+      
+      if (collectionProducts.length === 0) {
+        container.innerHTML = '<p style="text-align:center;color:var(--color-text-muted);padding:40px;">No products in this collection yet.</p>';
+        return;
+      }
+      
+      container.innerHTML = collectionProducts.map(p => renderProductCard(p)).join('');
+    });
+  </script>
+</body>
+</html>
