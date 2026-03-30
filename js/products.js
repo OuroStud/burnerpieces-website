@@ -13,7 +13,8 @@ const PRODUCTS = [
     originalPrice: 1599,
     images: [
       "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80",
-      "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=600&q=80"
+      "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=600&q=80",
+      "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=600&q=80"
     ],
     sizes: ["S", "M", "L", "XL"],
     colors: ["#1a1a1a", "#ffffff", "#4a6741"],
@@ -205,8 +206,9 @@ function renderProductCard(product, basePath = '') {
   return `
     <div class="product-card" data-id="${product.id}" data-category="${product.category}">
       ${badgeHTML}
-      <div class="product-image">
+      <div class="product-image" onmouseenter="swapImage(this, '${product.id}', 1)" onmouseleave="swapImage(this, '${product.id}', 0)">
         <img src="${product.images[0]}" alt="${product.name}" loading="lazy">
+        ${product.images.length > 1 ? `<div class="image-count"><i class="fas fa-images"></i> ${product.images.length}</div>` : ''}
         <div class="product-actions">
           <button class="btn-add-cart" onclick="addToCartWithSize('${product.id}')">Add to Cart</button>
           <button class="btn-quick-view" onclick="quickView('${product.id}')">Quick View</button>
@@ -251,6 +253,20 @@ function quickView(productId) {
     ? `₹${product.price.toLocaleString('en-IN')} <span style="text-decoration:line-through;color:#999;font-size:0.9rem;">₹${product.originalPrice.toLocaleString('en-IN')}</span>`
     : `₹${product.price.toLocaleString('en-IN')}`;
 
+  const thumbnailsHTML = product.images.map((img, i) =>
+    `<img src="${img}" alt="${product.name} view ${i+1}" class="${i === 0 ? 'active' : ''}" onclick="changeMainImage(this, '${img}')" style="width:70px;height:70px;object-fit:cover;border-radius:6px;border:2px solid ${i === 0 ? 'var(--color-accent)' : 'transparent'};cursor:pointer;transition:border-color 0.3s;">`
+  ).join('');
+
+  const imageLabels = ['Front', 'Back', 'Side', 'Detail', 'Model'];
+
+  const colorsModalHTML = product.colors && product.colors.length > 0
+    ? `<div class="color-selector" style="margin-bottom:16px;">
+        <label>Color</label>
+        <div class="color-options" style="display:flex;gap:8px;margin-top:6px;">
+          ${product.colors.map((c, i) => `<span class="color-dot color-selectable${i === 0 ? ' selected' : ''}" style="background:${c};width:28px;height:28px;${c === '#ffffff' || c === '#f5f5dc' || c === '#f5f5f5' ? 'border:1.5px solid #ccc;' : ''}" title="${colorNames[c.toLowerCase()] || c}" data-color="${c}" onclick="selectColor(this, '${product.id}')"></span>`).join('')}
+        </div>
+      </div>` : '';
+
   const modal = document.createElement('div');
   modal.className = 'modal-overlay';
   modal.innerHTML = `
@@ -258,12 +274,17 @@ function quickView(productId) {
       <button class="modal-close" onclick="this.closest('.modal-overlay').classList.remove('active');setTimeout(()=>this.closest('.modal-overlay').remove(),300)"><i class="fas fa-times"></i></button>
       <div class="product-layout" style="gap:32px;">
         <div class="product-gallery">
-          <div class="product-main-image"><img src="${product.images[0]}" alt="${product.name}"></div>
+          <div class="product-main-image" id="modalMainImage"><img src="${product.images[0]}" alt="${product.name}"></div>
+          <div class="product-thumbnails" style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+            ${thumbnailsHTML}
+          </div>
+          <p style="font-size:0.72rem;color:var(--color-text-muted);margin-top:6px;">${product.images.length} photos — click thumbnails to view</p>
         </div>
         <div class="product-info">
           <h1 style="font-size:1.5rem;">${product.name}</h1>
           <div class="price-display">${priceHTML}</div>
           <p class="description">${product.description}</p>
+          ${colorsModalHTML}
           <div class="size-selector">
             <label>Size</label>
             <div class="size-options">
@@ -287,6 +308,29 @@ function quickView(productId) {
       setTimeout(() => modal.remove(), 300);
     }
   });
+}
+
+/* Change main image in quick view modal */
+function changeMainImage(thumbEl, imageUrl) {
+  const mainImg = document.querySelector('#modalMainImage img');
+  if (mainImg) mainImg.src = imageUrl;
+  const thumbs = thumbEl.closest('.product-thumbnails');
+  if (thumbs) {
+    thumbs.querySelectorAll('img').forEach(t => {
+      t.style.borderColor = 'transparent';
+      t.classList.remove('active');
+    });
+    thumbEl.style.borderColor = 'var(--color-accent)';
+    thumbEl.classList.add('active');
+  }
+}
+
+/* Swap image on product card hover */
+function swapImage(container, productId, index) {
+  const product = getProductById(productId);
+  if (!product || !product.images[index]) return;
+  const img = container.querySelector('img');
+  if (img) img.src = product.images[index];
 }
 
 /* Initialize featured products on homepage */

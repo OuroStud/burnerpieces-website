@@ -444,6 +444,21 @@ input:focus, select:focus, textarea:focus {
   transition: transform 0.5s ease;
 }
 .product-card:hover .product-image img { transform: scale(1.08); }
+.image-count {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  font-size: 0.68rem;
+  padding: 3px 8px;
+  border-radius: 10px;
+  z-index: 2;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
 .product-actions {
   position: absolute;
   bottom: 0;
