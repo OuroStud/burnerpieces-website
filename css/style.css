@@ -459,6 +459,76 @@ input:focus, select:focus, textarea:focus {
   align-items: center;
   gap: 4px;
 }
+/* Card arrow buttons */
+.card-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.9);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  color: var(--color-text);
+  cursor: pointer;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity var(--transition), background var(--transition);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+.product-card:hover .card-arrow { opacity: 1; }
+.card-arrow:hover { background: #fff; }
+.card-arrow-left { left: 8px; }
+.card-arrow-right { right: 8px; }
+/* Card image dots */
+.card-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+  z-index: 3;
+}
+.card-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.5);
+  transition: all var(--transition);
+}
+.card-dot.active {
+  background: #fff;
+  width: 16px;
+  border-radius: 3px;
+}
+/* Modal arrow buttons */
+.modal-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.9);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  cursor: pointer;
+  z-index: 3;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: background var(--transition);
+}
+.modal-arrow:hover { background: #fff; }
+.modal-arrow-left { left: 12px; }
+.modal-arrow-right { right: 12px; }
 .product-actions {
   position: absolute;
   bottom: 0;
