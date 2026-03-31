@@ -1,0 +1,43 @@
+name = "burner-pieces-backend"
+main = "src/index.js"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+# ── D1 Database ───────────────────────────────────────────────────────────────
+[[d1_databases]]
+binding  = "DB"
+database_name = "burner-pieces-db"
+database_id   = "YOUR_D1_DATABASE_ID"   # ← replace after: wrangler d1 create burner-pieces-db
+
+# ── Cloudflare Browser Rendering (for PDF generation) ────────────────────────
+# Enable via: Cloudflare Dashboard → Workers → Your Worker → Bindings → Browser Rendering
+# [[browser]]
+# binding = "BROWSER"
+
+# ── Environment Variables (non-secret, safe to commit) ───────────────────────
+[vars]
+ENVIRONMENT = "production"
+
+# ── Secrets (set via CLI, never commit) ──────────────────────────────────────
+# Run these once:
+#
+#   wrangler secret put RAZORPAY_KEY_SECRET
+#   wrangler secret put ZOHO_CLIENT_ID
+#   wrangler secret put ZOHO_CLIENT_SECRET
+#   wrangler secret put ZOHO_REFRESH_TOKEN
+#   wrangler secret put ZOHO_FROM_EMAIL
+#   wrangler secret put ZOHO_ACCOUNT_ID
+#   wrangler secret put ZOHO_BOOKS_ORG_ID
+#   wrangler secret put SHIPROCKET_EMAIL
+#   wrangler secret put SHIPROCKET_PASSWORD
+#   wrangler secret put SHIPROCKET_PICKUP_LOCATION
+#   wrangler secret put ADMIN_SECRET
+
+# ── Routes ────────────────────────────────────────────────────────────────────
+[[routes]]
+pattern = "burnerpieces.com/api/*"
+zone_name = "burnerpieces.com"
+
+# ── Local dev overrides ───────────────────────────────────────────────────────
+[env.dev]
+name = "burner-pieces-backend-dev"

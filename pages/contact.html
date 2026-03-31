@@ -78,7 +78,8 @@
       <div id="step2" class="form-section">
         <button class="back-btn" onclick="goBack()"><i class="fas fa-arrow-left"></i> Back to options</button>
         <h2 id="formTitle" style="font-family:var(--font-display);font-size:1.4rem;margin-bottom:20px;"></h2>
-        <form id="contactForm">
+        <!-- data-managed="true" tells app.js not to attach a second submit listener -->
+        <form id="contactForm" data-managed="true">
           <input type="hidden" name="reason" id="reasonField">
 
           <!-- GENERAL ENQUIRY -->
@@ -93,7 +94,7 @@
             <div class="form-group"><label>Name *</label><input type="text" name="name"></div>
             <div class="form-group"><label>Email *</label><input type="email" name="email"></div>
             <div class="form-group"><label>Phone *</label><input type="tel" name="phone" placeholder="+91 98765 43210"></div>
-            <div class="form-group"><label>Order Number (if available)</label><input type="text" name="orderNumber" placeholder="e.g., BP-abc123"></div>
+            <div class="form-group"><label>Order Number (if available)</label><input type="text" name="orderNumber" placeholder="e.g., BP-202506-00001"></div>
             <div class="form-group"><label>Details *</label><textarea name="message" rows="4" placeholder="Describe your order issue..."></textarea></div>
           </div>
 
@@ -102,26 +103,32 @@
             <div class="form-group"><label>Name *</label><input type="text" name="name"></div>
             <div class="form-group"><label>Email *</label><input type="email" name="email"></div>
             <div class="form-group"><label>Phone *</label><input type="tel" name="phone" placeholder="+91 98765 43210"></div>
-            <div class="form-group"><label>Order Number *</label><input type="text" name="orderNumber" placeholder="e.g., BP-abc123"></div>
+            <div class="form-group"><label>Order Number *</label><input type="text" name="orderNumber" placeholder="e.g., BP-202506-00001"></div>
             <div class="form-group"><label>Return Reason *</label>
-              <select name="returnReason"><option value="">Select reason</option><option value="wrong-size">Wrong size</option><option value="defective">Defective / Damaged</option><option value="not-as-described">Not as described</option><option value="wrong-item">Wrong item received</option><option value="changed-mind">Changed my mind</option><option value="other">Other</option></select>
+              <select name="returnReason">
+                <option value="">Select reason</option>
+                <option value="size">Wrong size</option>
+                <option value="quality">Quality issue</option>
+                <option value="wrong">Wrong item received</option>
+                <option value="damaged">Damaged product</option>
+                <option value="other">Other</option>
+              </select>
             </div>
-            <div class="form-group"><label>Details *</label><textarea name="message" rows="3" placeholder="Describe the issue..."></textarea></div>
+            <div class="form-group"><label>Details *</label><textarea name="message" rows="4" placeholder="Please describe the issue in detail..."></textarea></div>
             <div class="form-group">
-              <label>Upload Photo (product with zip tag attached) *</label>
-              <div class="file-upload-area" id="fileUploadArea">
-                <input type="file" name="returnImage" id="returnImageInput" accept="image/*" multiple>
+              <label>Attach Photos (optional)</label>
+              <div class="file-upload-area">
+                <input type="file" id="returnImageInput" accept="image/*" multiple>
                 <i class="fas fa-cloud-upload-alt"></i>
-                <p>Click or drag photos here</p>
-                <p style="font-size:.72rem;margin-top:4px;">JPG, PNG up to 5MB. Show the zip tag still attached.</p>
+                <p>Click or drag photos here (max 5MB each)</p>
               </div>
               <div class="file-preview" id="filePreview"></div>
             </div>
           </div>
 
-          <!-- BUSINESS / TIE-UP -->
+          <!-- BUSINESS -->
           <div id="fields-business" class="dynamic-fields" style="display:none;">
-            <div class="form-group"><div style="display:flex;gap:12px;"><div style="flex:1"><label>First Name *</label><input type="text" name="firstName"></div><div style="flex:1"><label>Last Name *</label><input type="text" name="lastName"></div></div></div>
+            <div class="form-group"><label>Your Name *</label><input type="text" name="name"></div>
             <div class="form-group"><label>Business Email *</label><input type="email" name="email"></div>
             <div class="form-group"><label>Company / Brand Name</label><input type="text" name="company" placeholder="Your company name"></div>
             <div class="form-group"><label>Type of Enquiry *</label>
@@ -137,7 +144,9 @@
             <div class="form-group"><label>Message *</label><textarea name="message" rows="5" placeholder="Tell us what's on your mind..."></textarea></div>
           </div>
 
-          <button type="submit" class="btn-primary" style="width:100%;justify-content:center;margin-top:8px;">Submit <i class="fas fa-arrow-right"></i></button>
+          <button type="submit" id="contactSubmitBtn" class="btn-primary" style="width:100%;justify-content:center;margin-top:8px;">
+            Submit <i class="fas fa-arrow-right"></i>
+          </button>
         </form>
       </div>
 
@@ -170,67 +179,123 @@
     <div class="cart-footer" id="cartFooter" style="display:none;"><div class="cart-total"><span>Subtotal</span><span id="cartTotal">₹0</span></div><a href="checkout.html" class="btn-primary btn-checkout">Proceed to Checkout</a></div>
   </div>
 
-  <footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-col footer-brand"><div class="footer-logo"><span class="logo-text">BURNER</span><span class="logo-sub">PIECES</span></div><p>New age fashion by Ouro Studio Private Limited.</p></div><div class="footer-col"><h4>Shop</h4><ul><li><a href="mens-collection.html">Men</a></li><li><a href="womens-collection.html">Women</a></li></ul></div><div class="footer-col"><h4>Policies</h4><ul><li><a href="faq.html">FAQ</a></li><li><a href="shipping-returns.html">Shipping</a></li><li><a href="store-policy.html">Store Policy</a></li></ul></div><div class="footer-col"><h4>Connect</h4><ul><li><a href="contact.html">Contact</a></li></ul></div></div><div class="footer-bottom"><p>Burner Pieces &copy; 2025 by Ouro Studio Private Limited. All Rights Reserved.</p></div></div></footer>
+  <footer class="footer"><div class="container"><div class="footer-grid">
+    <div class="footer-col footer-brand"><div class="footer-logo"><span class="logo-text">BURNER</span><span class="logo-sub">PIECES</span></div><p>New age fashion by Ouro Studio Private Limited.</p></div>
+    <div class="footer-col"><h4>Shop</h4><ul><li><a href="mens-collection.html">Men</a></li><li><a href="womens-collection.html">Women</a></li></ul></div>
+    <div class="footer-col"><h4>Policies</h4><ul><li><a href="faq.html">FAQ</a></li><li><a href="shipping-returns.html">Shipping</a></li><li><a href="store-policy.html">Store Policy</a></li></ul></div>
+    <div class="footer-col"><h4>Connect</h4><ul><li><a href="contact.html">Contact</a></li></ul></div>
+  </div><div class="footer-bottom"><p>Burner Pieces &copy; 2025 by Ouro Studio Private Limited. All Rights Reserved.</p></div></div></footer>
 
   <script src="../js/products.js"></script>
   <script src="../js/cart.js"></script>
   <script src="../js/app.js"></script>
   <script>
-    let selectedReason='';let uploadedFiles=[];
-    const formTitles={enquiry:'General Enquiry',order:'Order Related Query',return:'Return / Exchange Request',business:'Business & Partnership Enquiry',other:'Get In Touch'};
+    let selectedReason = '';
+    let uploadedFiles  = [];
+    const formTitles = {
+      enquiry:  'General Enquiry',
+      order:    'Order Related Query',
+      return:   'Return / Exchange Request',
+      business: 'Business & Partnership Enquiry',
+      other:    'Get In Touch',
+    };
 
-    function selectReason(reason,el){
-      selectedReason=reason;
-      document.querySelectorAll('.reason-card').forEach(c=>c.classList.remove('selected'));
+    function selectReason(reason, el) {
+      selectedReason = reason;
+      document.querySelectorAll('.reason-card').forEach(c => c.classList.remove('selected'));
       el.classList.add('selected');
-      setTimeout(()=>{
+      setTimeout(() => {
         document.getElementById('step1').classList.remove('active');
         document.getElementById('step2').classList.add('active');
-        document.getElementById('formTitle').textContent=formTitles[reason];
-        document.getElementById('reasonField').value=reason;
-        document.querySelectorAll('.dynamic-fields').forEach(f=>f.style.display='none');
-        document.getElementById('fields-'+reason).style.display='block';
-        window.scrollTo({top:0,behavior:'smooth'});
-      },200);
+        document.getElementById('formTitle').textContent = formTitles[reason];
+        document.getElementById('reasonField').value = reason;
+        document.querySelectorAll('.dynamic-fields').forEach(f => f.style.display = 'none');
+        document.getElementById('fields-' + reason).style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 200);
     }
-    function goBack(){
+
+    function goBack() {
       document.getElementById('step2').classList.remove('active');
       document.getElementById('step1').classList.add('active');
       document.getElementById('contactForm').reset();
-      uploadedFiles=[];
-      const fp=document.getElementById('filePreview');if(fp)fp.innerHTML='';
-      window.scrollTo({top:0,behavior:'smooth'});
+      uploadedFiles = [];
+      const fp = document.getElementById('filePreview');
+      if (fp) fp.innerHTML = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    function resetForm(){
+
+    function resetForm() {
       document.getElementById('step3').classList.remove('active');
       document.getElementById('step1').classList.add('active');
       document.getElementById('contactForm').reset();
-      uploadedFiles=[];
-      const fp=document.getElementById('filePreview');if(fp)fp.innerHTML='';
-      document.querySelectorAll('.reason-card').forEach(c=>c.classList.remove('selected'));
-      window.scrollTo({top:0,behavior:'smooth'});
+      uploadedFiles = [];
+      const fp = document.getElementById('filePreview');
+      if (fp) fp.innerHTML = '';
+      document.querySelectorAll('.reason-card').forEach(c => c.classList.remove('selected'));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    const fileInput=document.getElementById('returnImageInput');
-    if(fileInput){fileInput.addEventListener('change',function(e){
-      const files=Array.from(e.target.files);const preview=document.getElementById('filePreview');
-      files.forEach(file=>{
-        if(file.size>5*1024*1024){alert('File '+file.name+' is too large. Max 5MB.');return;}
-        uploadedFiles.push(file);
-        const item=document.createElement('div');item.className='file-preview-item';
-        item.innerHTML='<i class="fas fa-image" style="color:var(--color-accent-dark)"></i> '+file.name.substring(0,20)+(file.name.length>20?'...':'')+' <span class="remove-file" onclick="removeFile(this,\''+file.name+'\')">&times;</span>';
-        preview.appendChild(item);
+
+    // File upload preview
+    const fileInput = document.getElementById('returnImageInput');
+    if (fileInput) {
+      fileInput.addEventListener('change', function (e) {
+        const files   = Array.from(e.target.files);
+        const preview = document.getElementById('filePreview');
+        files.forEach(file => {
+          if (file.size > 5 * 1024 * 1024) { alert('File ' + file.name + ' is too large. Max 5MB.'); return; }
+          uploadedFiles.push(file);
+          const item = document.createElement('div');
+          item.className = 'file-preview-item';
+          const short = file.name.substring(0, 20) + (file.name.length > 20 ? '...' : '');
+          item.innerHTML = '<i class="fas fa-image" style="color:var(--color-accent-dark)"></i> ' + short +
+            ' <span class="remove-file" onclick="removeFile(this,\'' + file.name + '\')">&times;</span>';
+          preview.appendChild(item);
+        });
       });
-    });}
-    function removeFile(el,fn){uploadedFiles=uploadedFiles.filter(f=>f.name!==fn);el.closest('.file-preview-item').remove();}
-    document.getElementById('contactForm').addEventListener('submit',function(e){
+    }
+    function removeFile(el, fn) {
+      uploadedFiles = uploadedFiles.filter(f => f.name !== fn);
+      el.closest('.file-preview-item').remove();
+    }
+
+    // ── Form submission — calls the real backend API ──────────────────────────
+    document.getElementById('contactForm').addEventListener('submit', async function (e) {
       e.preventDefault();
-      const data=Object.fromEntries(new FormData(this).entries());
-      data.reason=selectedReason;data.reasonLabel=formTitles[selectedReason];data.submittedAt=new Date().toISOString();
-      if(uploadedFiles.length>0)data.attachments=uploadedFiles.map(f=>f.name).join(', ');
-      saveFormData('contacts',data);
-      document.getElementById('step2').classList.remove('active');
-      document.getElementById('step3').classList.add('active');
-      window.scrollTo({top:0,behavior:'smooth'});
+      const btn = document.getElementById('contactSubmitBtn');
+      btn.disabled = true;
+      btn.innerHTML = 'Sending… <i class="fas fa-spinner fa-spin"></i>';
+
+      const data = Object.fromEntries(new FormData(this).entries());
+      data.reason      = selectedReason;
+      data.reasonLabel = formTitles[selectedReason] || selectedReason;
+
+      // Build the full message including order number / return reason if present
+      let fullMessage = data.message || '';
+      if (data.orderNumber) fullMessage = 'Order: ' + data.orderNumber + '\n\n' + fullMessage;
+      if (data.returnReason) fullMessage = 'Return reason: ' + data.returnReason + '\n\n' + fullMessage;
+      if (data.company)      fullMessage = 'Company: ' + data.company + '\n\n' + fullMessage;
+      if (data.businessType) fullMessage = 'Type: ' + data.businessType + '\n\n' + fullMessage;
+      if (uploadedFiles.length > 0) fullMessage += '\n\nAttachments mentioned: ' + uploadedFiles.map(f => f.name).join(', ');
+
+      const success = await submitContactForm({
+        name:        data.name    || '',
+        email:       data.email   || '',
+        phone:       data.phone   || '',
+        reasonLabel: data.reasonLabel,
+        message:     fullMessage,
+      });
+
+      if (success) {
+        document.getElementById('step2').classList.remove('active');
+        document.getElementById('step3').classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        showToast('Could not send message. Please email support@burnerpieces.com directly.');
+      }
+
+      btn.disabled = false;
+      btn.innerHTML = 'Submit <i class="fas fa-arrow-right"></i>';
     });
   </script>
 </body>

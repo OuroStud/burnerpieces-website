@@ -21,29 +21,54 @@
 
   <section class="content-page" style="min-height:60vh;display:flex;align-items:center;">
     <div class="container" style="text-align:center;max-width:600px;">
-      <div style="font-size:4rem;color:var(--color-success);margin-bottom:24px;"><i class="fas fa-check-circle"></i></div>
-      <h1 style="font-size:2rem;margin-bottom:16px;">Order Confirmed!</h1>
-      <p style="color:var(--color-text-muted);font-size:1.1rem;margin-bottom:8px;">Thank you for shopping with Burner Pieces.</p>
-      <p style="color:var(--color-text-muted);margin-bottom:32px;">You'll receive an order confirmation email shortly with tracking details. Your shipment will be auto-created via Shiprocket and tracking updates will be sent to your phone and email.</p>
-      <div style="background:var(--color-accent-light);padding:24px;border-radius:var(--radius-md);margin-bottom:32px;">
-        <p style="font-size:0.85rem;color:var(--color-text-muted);">Order ID</p>
-        <p style="font-size:1.3rem;font-weight:600;" id="orderIdDisplay">BP-...</p>
+      <div style="font-size:4rem;color:var(--color-success);margin-bottom:24px;">
+        <i class="fas fa-check-circle"></i>
       </div>
+      <h1 style="font-size:2rem;margin-bottom:16px;">Order Confirmed!</h1>
+      <p style="color:var(--color-text-muted);font-size:1.1rem;margin-bottom:8px;">
+        Thank you for shopping with Burner Pieces.
+      </p>
+      <p style="color:var(--color-text-muted);margin-bottom:32px;">
+        A GST invoice has been emailed to you. Your shipment will be dispatched shortly and
+        you'll receive tracking updates via email.
+      </p>
+
+      <div style="background:var(--color-accent-light);padding:24px;border-radius:var(--radius-md);margin-bottom:32px;">
+        <p style="font-size:0.85rem;color:var(--color-text-muted);margin-bottom:4px;">Invoice Number</p>
+        <p style="font-size:1.3rem;font-weight:600;" id="invoiceDisplay">—</p>
+        <p style="font-size:0.85rem;color:var(--color-text-muted);margin-top:12px;margin-bottom:4px;">Razorpay Order ID</p>
+        <p style="font-size:1rem;font-weight:500;" id="orderIdDisplay">—</p>
+      </div>
+
+      <p style="font-size:0.85rem;color:var(--color-text-muted);margin-bottom:24px;">
+        Questions? Email us at
+        <a href="mailto:support@burnerpieces.com" style="color:var(--color-accent-dark);">support@burnerpieces.com</a>
+      </p>
+
       <a href="../index.html" class="btn-primary">Continue Shopping <i class="fas fa-arrow-right"></i></a>
     </div>
   </section>
 
   <footer class="footer">
-    <div class="container"><div class="footer-bottom"><p>Burner Pieces &copy; 2025 by Ouro Studio Private Limited. All Rights Reserved.</p></div></div>
+    <div class="container">
+      <div class="footer-bottom">
+        <p>Burner Pieces &copy; 2025 by Ouro Studio Private Limited. All Rights Reserved.</p>
+      </div>
+    </div>
   </footer>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const orders = JSON.parse(localStorage.getItem('burner_orders')) || [];
-      if (orders.length > 0) {
-        const last = orders[orders.length - 1];
-        document.getElementById('orderIdDisplay').textContent = `BP-${last.id || Date.now().toString(36).toUpperCase()}`;
-      }
+      // Read values written by app.js after successful backend verification
+      const invoice = sessionStorage.getItem('bp_last_invoice');
+      const order   = sessionStorage.getItem('bp_last_order');
+
+      if (invoice) document.getElementById('invoiceDisplay').textContent = invoice;
+      if (order)   document.getElementById('orderIdDisplay').textContent = order;
+
+      // Clear after display so refresh doesn't show stale data
+      sessionStorage.removeItem('bp_last_invoice');
+      sessionStorage.removeItem('bp_last_order');
     });
   </script>
 </body>

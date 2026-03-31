@@ -1,0 +1,16 @@
+{
+  "name": "burner-pieces-backend",
+  "version": "1.0.0",
+  "description": "Cloudflare Workers backend for burnerpieces.com",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev":    "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:migrate": "wrangler d1 execute burner-pieces-db --file=schema.sql",
+    "db:migrate:local": "wrangler d1 execute burner-pieces-db --local --file=schema.sql"
+  },
+  "devDependencies": {
+    "wrangler": "^3.57.0"
+  }
+}
