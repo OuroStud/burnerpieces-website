@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog | Burner Pieces</title>
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    .post-hero {
+      width: 100%; max-height: 480px;
+      object-fit: cover; display: block;
+    }
+    .post-container {
+      max-width: 760px; margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+    .post-meta {
+      display: flex; align-items: center; gap: 10px;
+      flex-wrap: wrap; margin-bottom: 16px;
+      font-size: 0.82rem; color: var(--color-text-muted);
+    }
+    .blog-category-badge {
+      background: var(--color-dark); color: #fff;
+      font-size: 0.65rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1.5px;
+      padding: 4px 10px; border-radius: 2px;
+    }
+    #postTitle {
+      font-family: var(--font-display);
+      font-size: 2.4rem; line-height: 1.25;
+      margin-bottom: 32px; color: var(--color-text);
+    }
+    .post-body {
+      font-size: 1.02rem; line-height: 1.85;
+      color: var(--color-text);
+    }
+    .post-body h2 {
+      font-family: var(--font-display);
+      font-size: 1.5rem; margin: 40px 0 16px;
+      color: var(--color-text);
+    }
+    .post-body h3 {
+      font-size: 1.15rem; font-weight: 700;
+      margin: 28px 0 12px;
+    }
+    .post-body p { margin-bottom: 20px; }
+    .post-body ul, .post-body ol {
+      padding-left: 24px; margin-bottom: 20px;
+    }
+    .post-body li { margin-bottom: 8px; line-height: 1.7; }
+    .post-body strong { font-weight: 600; color: var(--color-text); }
+    .post-divider {
+      border: none; border-top: 1px solid var(--color-border);
+      margin: 48px 0;
+    }
+    .blog-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 32px; }
+    .blog-tag {
+      font-size: 0.75rem; padding: 5px 12px;
+      border: 1.5px solid var(--color-border);
+      border-radius: 20px; color: var(--color-text-muted);
+    }
+    .post-nav {
+      display: flex; justify-content: space-between;
+      gap: 16px; margin-top: 48px;
+    }
+    .post-nav a {
+      font-size: 0.85rem; font-weight: 600;
+      color: var(--color-accent-dark); text-decoration: none;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .related-posts { margin-top: 64px; }
+    .related-posts h2 {
+      font-family: var(--font-display);
+      font-size: 1.4rem; margin-bottom: 24px;
+    }
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px;
+    }
+    .related-card {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md); overflow: hidden;
+      text-decoration: none; color: inherit;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: block;
+    }
+    .related-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+    .related-card img {
+      width: 100%; aspect-ratio: 16/9; object-fit: cover;
+    }
+    .related-card-body { padding: 14px 16px; }
+    .related-card-body h4 {
+      font-size: 0.92rem; font-family: var(--font-display);
+      line-height: 1.3; margin-bottom: 4px;
+    }
+    .related-card-body p {
+      font-size: 0.75rem; color: var(--color-text-muted);
+    }
+    @media (max-width: 600px) {
+      #postTitle { font-size: 1.7rem; }
+      .post-container { padding: 28px 16px 60px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="announcement-bar">
+    <p>FREE SHIPPING ON ORDERS ABOVE ₹999 | USE CODE: <strong>BURNER10</strong> FOR 10% OFF</p>
+  </div>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="../index.html" class="logo">
+        <span class="logo-text">BURNER</span>
+        <span class="logo-sub">PIECES</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="mens-collection.html">Men's Collection</a></li>
+        <li><a href="womens-collection.html">Women's Collection</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="nav-more">
+          <a href="#" class="dropdown-toggle">More <i class="fas fa-chevron-down"></i></a>
+          <ul class="dropdown-menu">
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="shipping-returns.html">Shipping & Returns</a></li>
+            <li><a href="store-policy.html">Store Policy</a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="nav-actions">
+        <button class="nav-icon cart-icon" id="cartToggle">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+        <button class="hamburger" id="hamburger">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Image -->
+  <img id="postHeroImage" class="post-hero" src="" alt="Blog post cover">
+
+  <!-- Post Content -->
+  <div class="post-container">
+    <a href="blog.html" style="font-size:0.82rem;color:var(--color-text-muted);text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-bottom:24px;">
+      <i class="fas fa-arrow-left"></i> Back to Blog
+    </a>
+
+    <div id="postMeta" class="post-meta"></div>
+    <h1 id="postTitle"></h1>
+
+    <div id="postContent" class="post-body"></div>
+
+    <hr class="post-divider">
+
+    <div id="postTags" class="blog-tags"></div>
+
+    <div class="post-nav">
+      <a href="blog.html"><i class="fas fa-arrow-left"></i> All Posts</a>
+      <a href="checkout.html">Shop Now <i class="fas fa-shopping-bag"></i></a>
+    </div>
+
+    <!-- Related Posts -->
+    <div class="related-posts">
+      <h2>More From The Journal</h2>
+      <div class="related-grid" id="relatedPosts"></div>
+    </div>
+  </div>
+
+  <!-- Cart Sidebar -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <button id="cartClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty"><i class="fas fa-shopping-bag"></i><p>Your cart is empty</p></div>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none;">
+      <div class="cart-total"><span>Subtotal</span><span id="cartTotal">₹0</span></div>
+      <a href="checkout.html" class="btn-primary btn-checkout">Proceed to Checkout</a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand">
+          <div class="footer-logo"><span class="logo-text">BURNER</span><span class="logo-sub">PIECES</span></div>
+          <p>New age fashion by Ouro Studio Private Limited.</p>
+        </div>
+        <div class="footer-col"><h4>Shop</h4><ul><li><a href="mens-collection.html">Men</a></li><li><a href="womens-collection.html">Women</a></li></ul></div>
+        <div class="footer-col"><h4>Read</h4><ul><li><a href="blog.html">Blog</a></li><li><a href="faq.html">FAQ</a></li></ul></div>
+        <div class="footer-col"><h4>Connect</h4><ul><li><a href="contact.html">Contact</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <p>Burner Pieces &copy; 2025 by Ouro Studio Private Limited. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/products.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/blog.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Get post ID from URL: blog-post.html?id=bp-blog-001
+      const params  = new URLSearchParams(window.location.search);
+      const postId  = params.get('id');
+      const post    = postId ? getBlogPostById(postId) : null;
+
+      if (!post) {
+        document.getElementById('postTitle').textContent = 'Post not found';
+        document.getElementById('postContent').innerHTML =
+          '<p>This post doesn\'t exist. <a href="blog.html">Back to Blog</a></p>';
+        return;
+      }
+
+      renderBlogPost(post);
+
+      // Related posts (same category, excluding current)
+      const related = BLOG_POSTS
+        .filter(p => p.id !== post.id && p.category === post.category)
+        .slice(0, 3);
+
+      // If not enough same-category posts, fill with any others
+      const extras = BLOG_POSTS
+        .filter(p => p.id !== post.id && !related.find(r => r.id === p.id))
+        .slice(0, 3 - related.length);
+
+      const relatedAll = [...related, ...extras];
+
+      const relatedContainer = document.getElementById('relatedPosts');
+      if (relatedAll.length === 0) {
+        relatedContainer.closest('.related-posts').style.display = 'none';
+      } else {
+        relatedContainer.innerHTML = relatedAll.map(p => `
+          <a href="blog-post.html?id=${p.id}" class="related-card">
+            <img src="${p.coverImage}" alt="${p.title}">
+            <div class="related-card-body">
+              <h4>${p.title}</h4>
+              <p>${new Date(p.date).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'})}</p>
+            </div>
+          </a>
+        `).join('');
+      }
+    });
+  </script>
+</body>
+</html>
